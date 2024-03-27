@@ -12,15 +12,15 @@ public class ThrowablesController : MonoBehaviour
 
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        // Move the projectile forward once instantiated
+        // Move the projectile forward once instantiated and start a timer to delete it if not deleted before hand
         transform.Translate(Vector3.forward * -speed * Time.deltaTime);
         StartCoroutine(nameof(DeleteProjectile));
     }
 
+    // Destroy the food item projectile if it hits any object
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Object hit!");

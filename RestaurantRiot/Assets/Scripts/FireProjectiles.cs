@@ -15,6 +15,7 @@ public class FireProjectiles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Instatiate a clone of the food item projectile when the space key is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(projectilePrefab, transform.position, transform.rotation);
