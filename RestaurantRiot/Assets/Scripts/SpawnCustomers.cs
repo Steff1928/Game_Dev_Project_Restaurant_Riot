@@ -6,7 +6,6 @@ public class SpawnCustomers : MonoBehaviour
 {
     [SerializeField] GameObject[] customers;
     [SerializeField] GameObject[] enemyCustomers;
-    [SerializeField] GameObject player;
 
     float xBoundRight = 21.5f;
     float xBoundLeft = -25.0f;
@@ -18,10 +17,6 @@ public class SpawnCustomers : MonoBehaviour
     void Start()
     {
         InvokeRepeating(nameof(SpawnInCustomers), 3, 5);
-
-        // TODO: Spawn in customers between random intervals
-        // TODO: Ensure customers are spawned within the bounds of the level (booleans, colliders and tags)
-        // TODO: Remove a customer that is touching an object
     }
 
     // Update is called once per frame

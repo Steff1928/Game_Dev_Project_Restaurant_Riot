@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class ManageSpawn : MonoBehaviour
 {
+    Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,7 +26,22 @@ public class ManageSpawn : MonoBehaviour
             {
                 Debug.Log("Customer isn't within confines!");
                 Destroy(gameObject);
-            }
+            } 
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Food"))
+        {
+            animator.SetTrigger("hasBeenFed");
+            StartCoroutine(nameof(DestroyCustomer));
+        }
+    }
+
+    IEnumerator DestroyCustomer()
+    {
+        yield return new WaitForSeconds(1.3f);
+        Destroy(gameObject);
     }
 }

@@ -46,11 +46,9 @@ namespace SojaExiles
             // Set isGrounded to true if the CharacterController Collider is touching the ground
             if (hit.gameObject.CompareTag("Ground"))
             {
-                Debug.Log("Grounded");
                 isGrounded = true;
             } else
             {
-                Debug.Log("Not Grounded");
                 isGrounded = false;
             }
         }
