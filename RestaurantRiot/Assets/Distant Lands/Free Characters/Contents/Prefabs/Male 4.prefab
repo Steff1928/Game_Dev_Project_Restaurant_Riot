@@ -2552,6 +2552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3305581528943551193}
   - component: {fileID: 3305581528936025421}
+  - component: {fileID: 7721427930520944470}
   m_Layer: 0
   m_Name: Male 4
   m_TagString: Untagged
@@ -2605,6 +2606,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &7721427930520944470
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3305581528943329081}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.65514135, y: 1.7976029, z: 0.35081673}
+  m_Center: {x: 0.0068383412, y: 0.8727304, z: 0.075346634}
 --- !u!1 &3305581528943329083
 GameObject:
   m_ObjectHideFlags: 0
