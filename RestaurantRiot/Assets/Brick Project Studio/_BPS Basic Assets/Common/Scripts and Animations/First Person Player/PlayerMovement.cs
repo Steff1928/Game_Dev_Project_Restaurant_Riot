@@ -13,9 +13,9 @@ namespace SojaExiles
         public float speed = 5f;
         public float gravity = -15f;
 
-        [SerializeField] Vector3 velocity;
+        Vector3 velocity;
 
-        [SerializeField] bool isGrounded = false;
+        bool isGrounded = false;
 
         // Update is called once per frame
         void Update()
