@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class EnemyAI : MonoBehaviour
 
     Animator animator;
     NavMeshAgent agent;
+
+    BoxCollider boxCollider;
 
     bool hasCaughtPlayer = false;
     bool isStunned = false;
@@ -26,16 +29,22 @@ public class EnemyAI : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player"); // Find the player active within the hierachy
         playerCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>(); // Find the camera attached to the player as a child component
-
-        agent.speed = 100.0f * Time.deltaTime;
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (!hasCaughtPlayer && !isStunned) 
         {
             ChasePlayer();
+            agent.speed = 100.0f * Time.deltaTime;
+            boxCollider.enabled = true;
+        } else
+        {
+            agent.speed = 0;
+            boxCollider.enabled = false;
         }
 
         float dist = agent.remainingDistance;
@@ -66,6 +75,9 @@ public class EnemyAI : MonoBehaviour
             //playerCamera.transform.LookAt(transform.position); // Look at the enemy to show that the player has been caught
 
             animator.SetTrigger("hasCaughtPlayer");
+
+            // TEMP: Restart
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         if (other.gameObject.CompareTag("Food") && !isStunned)

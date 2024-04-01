@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SojaExiles
@@ -27,7 +28,7 @@ namespace SojaExiles
 					{
 						if (open == false)
 						{
-							if (Input.GetMouseButtonDown(0))
+							if (Input.GetKeyDown(KeyCode.E))
 							{
 								StartCoroutine(opening());
 							}
@@ -36,7 +37,7 @@ namespace SojaExiles
 						{
 							if (open == true)
 							{
-								if (Input.GetMouseButtonDown(0))
+								if (Input.GetKeyDown(KeyCode.E))
 								{
 									StartCoroutine(closing());
 								}
@@ -51,7 +52,15 @@ namespace SojaExiles
 
 		}
 
-		IEnumerator opening()
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Enemy") && !open)
+			{
+				StartCoroutine(opening());
+			}
+        }
+
+        IEnumerator opening()
 		{
 			print("you are opening the door");
 			openandclose.Play("Opening");
@@ -66,7 +75,5 @@ namespace SojaExiles
 			open = false;
 			yield return new WaitForSeconds(.5f);
 		}
-
-
 	}
 }

@@ -16,7 +16,7 @@ public class FireProjectiles : MonoBehaviour
     void Update()
     {
         // Instatiate a clone of the food item projectile when the space key is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             Instantiate(projectilePrefab, transform.position, transform.rotation);
         }
