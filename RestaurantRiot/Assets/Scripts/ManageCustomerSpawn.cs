@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManageSpawn : MonoBehaviour
+public class ManageCustomerSpawn : MonoBehaviour
 {
     Animator animator;
 

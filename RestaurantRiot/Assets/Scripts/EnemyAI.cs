@@ -1,6 +1,7 @@
 using SojaExiles;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -86,6 +87,11 @@ public class EnemyAI : MonoBehaviour
             isStunned = true;
             StartCoroutine(StunTime());
         }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        
     }
 
     IEnumerator StunTime()

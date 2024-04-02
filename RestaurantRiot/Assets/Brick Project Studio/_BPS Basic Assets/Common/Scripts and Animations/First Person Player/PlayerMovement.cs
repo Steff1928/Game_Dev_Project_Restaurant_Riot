@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SojaExiles
-
 {
     public class PlayerMovement : MonoBehaviour
     {
@@ -16,6 +15,15 @@ namespace SojaExiles
         Vector3 velocity;
 
         bool isGrounded = false;
+
+        FireProjectiles fireProjectilesScript;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
+            // Find the FireProjectiles script on a child component of the Player to access number of food items
+            fireProjectilesScript = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FireProjectiles>();
+        }
 
         // Update is called once per frame
         void Update()
@@ -39,6 +47,7 @@ namespace SojaExiles
             }
 
             controller.Move(velocity * Time.deltaTime); // Move the player in relation to their velocity on the y axis
+
         }
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -50,6 +59,14 @@ namespace SojaExiles
             } else
             {
                 isGrounded = false;
+            }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("FoodCollectible"))
+            {
+                fireProjectilesScript.foodItems++; // Increase number of food items on FireProjectiles script
+                Destroy(other.gameObject);
             }
         }
     }

@@ -23,8 +23,11 @@ public class ThrowablesController : MonoBehaviour
     // Destroy the food item projectile if it hits any object
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Object hit!");
-        Destroy(gameObject);
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Object hit!");
+            Destroy(gameObject);
+        }
     }
 
     // Destroy food item prefab if existing for too long (failsafe if collison doesn't work to avoid memory loss)
