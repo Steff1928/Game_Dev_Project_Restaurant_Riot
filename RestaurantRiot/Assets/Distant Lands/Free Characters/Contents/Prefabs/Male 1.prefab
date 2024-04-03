@@ -391,9 +391,9 @@ GameObject:
   - component: {fileID: 9177353314777226649}
   - component: {fileID: 3196478906760596879}
   - component: {fileID: 4080399563840491431}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Male 1
-  m_TagString: Untagged
+  m_TagString: Customers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

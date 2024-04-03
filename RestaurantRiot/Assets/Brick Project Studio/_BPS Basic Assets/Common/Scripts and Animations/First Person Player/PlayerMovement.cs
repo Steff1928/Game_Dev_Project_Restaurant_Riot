@@ -22,7 +22,7 @@ namespace SojaExiles
         private void Start()
         {
             // Find the FireProjectiles script on a child component of the Player to access number of food items
-            fireProjectilesScript = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FireProjectiles>();
+            fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
         }
 
         // Update is called once per frame

@@ -555,9 +555,9 @@ GameObject:
   - component: {fileID: 238359906126363784}
   - component: {fileID: -213709110605056548}
   - component: {fileID: -1342795812177513078}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Female 2
-  m_TagString: Untagged
+  m_TagString: Customers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

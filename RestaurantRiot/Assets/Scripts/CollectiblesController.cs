@@ -7,17 +7,23 @@ public class CollectiblesController : MonoBehaviour
     [SerializeField] float rotateSpeed = 50.0f;
     [SerializeField] float speed = 50.0f;
     [SerializeField] float height = 0.2f;
+    
+    public float heightOffset = 0.5f;
 
     Vector3 pos;
 
     [SerializeField] float sphereRadius = 5f;
     [SerializeField] LayerMask exceptionMask;
 
+    BoxCollider boxCollider;
+
     // Start is called before the first frame update
     void Start()
     {
         // Get the objects current position and put it in a variable so we can access it later with less code
         pos = transform.position;
+
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -28,9 +34,11 @@ public class CollectiblesController : MonoBehaviour
         // Calculate what the new Y position will be
         float newY = Mathf.Sin(Time.time * speed);
         // Set the object's Y to the new calculated Y
-        transform.position = new Vector3(pos.x, (newY * height) + 0.5f, pos.z);
+        transform.position = new Vector3(pos.x, (newY * height) + heightOffset, pos.z);
 
-        if (!Physics.CheckSphere(transform.position, sphereRadius, exceptionMask))
+        // Checks to see if any objects with the layer "exceptionMask" are within the box's collider
+        // (with exagerrated y to detect ground), if not, destroy the object
+        if (!Physics.CheckBox(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z), Quaternion.identity, exceptionMask))
         {
             Destroy(gameObject);
         }
@@ -38,10 +46,24 @@ public class CollectiblesController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Food") && !other.gameObject.CompareTag("Ground") && !other.gameObject.CompareTag("Player"))
+        // TODO: Clean up this code
+        if (!other.gameObject.CompareTag("Food")
+            && !other.gameObject.CompareTag("Ground")
+            && !other.gameObject.CompareTag("Player")
+            && !other.gameObject.CompareTag("FoodCollectible")
+            && !other.gameObject.CompareTag("TimeCollectible")
+            && !other.gameObject.CompareTag("Enemy")
+            && !other.gameObject.CompareTag("Customers"))
         {
-            Debug.Log("Collectible is colliding with an object!");
+            Debug.Log("Collectible is colliding with a structural object!");
             Destroy(gameObject);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+
+        Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z));
     }
 }

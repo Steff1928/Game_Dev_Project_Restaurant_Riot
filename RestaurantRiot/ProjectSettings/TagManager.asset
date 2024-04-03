@@ -7,8 +7,10 @@ TagManager:
   - Ground
   - Food
   - Enemy
-  - FoodCollectible
   - TimeCollectible
+  - FoodCollectible
+  - Undefined
+  - Customers
   layers:
   - Default
   - TransparentFX

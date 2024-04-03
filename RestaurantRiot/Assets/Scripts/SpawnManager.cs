@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    // Create an array of GameObjects to reference certain customers
+    // Create arrays of GameObjects to reference prefabs to spawn
     [SerializeField] GameObject[] customers;
     [SerializeField] GameObject[] enemyCustomers;
-    [SerializeField] GameObject collectibles;
+    [SerializeField] GameObject foodCollectibles;
+    [SerializeField] GameObject timeCollectibles;
 
     [SerializeField] Vector3 enemySpawnPos; // enemySpawnPos to be determined in inspector
 
@@ -28,7 +29,8 @@ public class SpawnManager : MonoBehaviour
 
         InvokeRepeating(nameof(SpawnInCustomers), 5, 2); // Spawn a customer every few seconds
         InvokeRepeating(nameof(SpawnInEnemyCustomers), 30, randomEnemySpawn); // Spawn an enemy customer every few seconds
-        InvokeRepeating(nameof(SpawnInCollectibles), 3, 1);
+        InvokeRepeating(nameof(SpawnInFoodCollectibles), 5, 1);
+        InvokeRepeating(nameof(SpawnInTimeCollectibles), 5, 3);
     }
 
     // Update is called once per frame
@@ -54,10 +56,17 @@ public class SpawnManager : MonoBehaviour
         Instantiate(enemyCustomers[enemyIndex], enemySpawnPos, Quaternion.identity); // Instatiate enemy customers when called
     }
 
-    void SpawnInCollectibles()
+    void SpawnInFoodCollectibles()
     {
-        Vector3 spawnPos = new Vector3(Random.Range(xBoundLeft, xBoundRight), 0f, Random.Range(zBoundBack, collectibleZBoundFoward));
+        Vector3 spawnPos = new Vector3(Random.Range(xBoundLeft, xBoundRight), 1, Random.Range(zBoundBack, collectibleZBoundFoward));
 
-        Instantiate(collectibles, spawnPos, Quaternion.identity);
+        Instantiate(foodCollectibles, spawnPos, Quaternion.identity);
+    }
+
+    void SpawnInTimeCollectibles()
+    {
+        Vector3 spawnPos = new Vector3(Random.Range(xBoundLeft, xBoundRight), 1, Random.Range(zBoundBack, collectibleZBoundFoward));
+
+        Instantiate(timeCollectibles, spawnPos, Quaternion.identity);
     }
 }
