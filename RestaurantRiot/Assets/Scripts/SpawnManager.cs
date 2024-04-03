@@ -36,7 +36,7 @@ public class SpawnManager : MonoBehaviour
     {
         randomEnemySpawn = Random.Range(15.0f, 30.0f); // Assign a random value to the random enemy spawn timer upon start up
 
-        InvokeRepeating(nameof(SpawnInCustomers), waitTime, randomEnemySpawn); // Spawn a customer every few seconds
+        InvokeRepeating(nameof(SpawnInCustomers), waitTime, spawnRateCustomer); // Spawn a customer every few seconds
         InvokeRepeating(nameof(SpawnInEnemyCustomers), enemyWaitTime, randomEnemySpawn); // Spawn an enemy customer every few seconds
         InvokeRepeating(nameof(SpawnInFoodCollectibles), waitTime, spawnRateFood);
         InvokeRepeating(nameof(SpawnInTimeCollectibles), waitTime, spawnRateTime);
