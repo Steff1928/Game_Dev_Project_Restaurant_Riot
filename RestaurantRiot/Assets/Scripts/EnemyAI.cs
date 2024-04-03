@@ -16,6 +16,8 @@ public class EnemyAI : MonoBehaviour
 
     BoxCollider boxCollider;
 
+    GameManager gameManager;
+
     bool hasCaughtPlayer = false;
     bool isStunned = false;
 
@@ -31,6 +33,8 @@ public class EnemyAI : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player"); // Find the player active within the hierachy
         playerCamera = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>(); // Find the camera attached to the player as a child component
         boxCollider = GetComponent<BoxCollider>();
+
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class EnemyAI : MonoBehaviour
         if (!hasCaughtPlayer && !isStunned) 
         {
             ChasePlayer();
-            agent.speed = 100.0f * Time.deltaTime;
+            agent.speed = 2.0f;
             boxCollider.enabled = true;
         } else
         {
@@ -70,15 +74,9 @@ public class EnemyAI : MonoBehaviour
         {
             // TODO: Stop Game
             hasCaughtPlayer = true;
-            // Disable both interactivity scripts so players can't move
-            player.GetComponent<PlayerMovement>().enabled = false;
-            playerCamera.GetComponent<MouseLook>().enabled = false;
-            //playerCamera.transform.LookAt(transform.position); // Look at the enemy to show that the player has been caught
-
             animator.SetTrigger("hasCaughtPlayer");
+            gameManager.StopGame();
 
-            // TEMP: Restart
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         if (other.gameObject.CompareTag("Food") && !isStunned)
@@ -87,11 +85,6 @@ public class EnemyAI : MonoBehaviour
             isStunned = true;
             StartCoroutine(StunTime());
         }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        
     }
 
     IEnumerator StunTime()

@@ -20,23 +20,26 @@ public class SpawnManager : MonoBehaviour
 
     float collectibleZBoundFoward = 38.0f; // Collectibles can also be instatiated within the back offices of the map
 
+    int enemiesSpawned = 0;
+    int enemiesSpawnLimit = 3;
+
+    float spawnRateTime = 5;
+    float spawnRateFood = 1;
+    float spawnRateCustomer = 2;
     float randomEnemySpawn;
+
+    float waitTime = 5;
+    float enemyWaitTime = 30;
 
     // Start is called before the first frame update
     void Start()
     {
-        randomEnemySpawn = Random.Range(15.0f, 30.0f);
+        randomEnemySpawn = Random.Range(15.0f, 30.0f); // Assign a random value to the random enemy spawn timer upon start up
 
-        InvokeRepeating(nameof(SpawnInCustomers), 5, 2); // Spawn a customer every few seconds
-        InvokeRepeating(nameof(SpawnInEnemyCustomers), 30, randomEnemySpawn); // Spawn an enemy customer every few seconds
-        InvokeRepeating(nameof(SpawnInFoodCollectibles), 5, 1);
-        InvokeRepeating(nameof(SpawnInTimeCollectibles), 5, 3);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        InvokeRepeating(nameof(SpawnInCustomers), waitTime, randomEnemySpawn); // Spawn a customer every few seconds
+        InvokeRepeating(nameof(SpawnInEnemyCustomers), enemyWaitTime, randomEnemySpawn); // Spawn an enemy customer every few seconds
+        InvokeRepeating(nameof(SpawnInFoodCollectibles), waitTime, spawnRateFood);
+        InvokeRepeating(nameof(SpawnInTimeCollectibles), waitTime, spawnRateTime);
     }
 
     void SpawnInCustomers()
@@ -50,23 +53,29 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnInEnemyCustomers()
     {
-        randomEnemySpawn = Random.Range(15.0f, 30.0f);
+        randomEnemySpawn = Random.Range(15.0f, 30.0f); // Update the randomEnemySpawn time with a random number
         int enemyIndex = Random.Range(0, enemyCustomers.Length); // Assign a random enemy customer to be spawned within a variable
 
-        Instantiate(enemyCustomers[enemyIndex], enemySpawnPos, Quaternion.identity); // Instatiate enemy customers when called
+        if (!(enemiesSpawned >= enemiesSpawnLimit)) // Prevent the game from spawning more enemies then the suggested limit
+        {
+            enemiesSpawned++;
+            Instantiate(enemyCustomers[enemyIndex], enemySpawnPos, Quaternion.identity); // Instatiate enemy customers when called
+        }
     }
 
     void SpawnInFoodCollectibles()
     {
+        // Assign a random spawn position within the valid confines
         Vector3 spawnPos = new Vector3(Random.Range(xBoundLeft, xBoundRight), 1, Random.Range(zBoundBack, collectibleZBoundFoward));
 
-        Instantiate(foodCollectibles, spawnPos, Quaternion.identity);
+        Instantiate(foodCollectibles, spawnPos, Quaternion.identity); // Instatiate food collectibles when called
     }
 
     void SpawnInTimeCollectibles()
     {
+        // Assign a random spawn position within the valid confines
         Vector3 spawnPos = new Vector3(Random.Range(xBoundLeft, xBoundRight), 1, Random.Range(zBoundBack, collectibleZBoundFoward));
 
-        Instantiate(timeCollectibles, spawnPos, Quaternion.identity);
+        Instantiate(timeCollectibles, spawnPos, Quaternion.identity); // Instatiate time collectibles when called
     }
 }

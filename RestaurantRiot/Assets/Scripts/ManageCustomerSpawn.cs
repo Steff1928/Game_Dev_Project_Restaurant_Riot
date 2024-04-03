@@ -5,17 +5,13 @@ using UnityEngine;
 public class ManageCustomerSpawn : MonoBehaviour
 {
     Animator animator;
+    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>(); // Reference the animator component on the customer
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     // Check to see if the customer is within the boundaries of the level and isn't touching any other objects
@@ -37,6 +33,7 @@ public class ManageCustomerSpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
+            gameManager.customersFed++;
             animator.SetTrigger("hasBeenFed");
             StartCoroutine(nameof(DestroyCustomer));
         }

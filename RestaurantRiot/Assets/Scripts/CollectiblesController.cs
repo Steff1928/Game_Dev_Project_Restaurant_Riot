@@ -12,7 +12,6 @@ public class CollectiblesController : MonoBehaviour
 
     Vector3 pos;
 
-    [SerializeField] float sphereRadius = 5f;
     [SerializeField] LayerMask exceptionMask;
 
     BoxCollider boxCollider;

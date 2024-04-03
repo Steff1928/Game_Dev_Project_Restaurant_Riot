@@ -17,12 +17,14 @@ namespace SojaExiles
         bool isGrounded = false;
 
         FireProjectiles fireProjectilesScript;
+        GameManager gameManager;
 
         // Start is called before the first frame update
         private void Start()
         {
-            // Find the FireProjectiles script on a child component of the Player to access number of food items
+            // Find the FireProjectiles and GameManager anywhere in the hierachy and store them here
             fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
+            gameManager = FindAnyObjectByType<GameManager>();
         }
 
         // Update is called once per frame
@@ -66,6 +68,11 @@ namespace SojaExiles
             if (other.gameObject.CompareTag("FoodCollectible"))
             {
                 fireProjectilesScript.foodItems++; // Increase number of food items on FireProjectiles script
+                Destroy(other.gameObject);
+            } 
+            else if (other.gameObject.CompareTag("TimeCollectible"))
+            {
+                gameManager.timeRemaining += 15;
                 Destroy(other.gameObject);
             }
         }
