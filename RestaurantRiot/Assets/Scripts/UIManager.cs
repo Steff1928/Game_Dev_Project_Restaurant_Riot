@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI burgerCountText;
     [SerializeField] TextMeshProUGUI timeRemaining;
     [SerializeField] TextMeshProUGUI targetGoalText;
+    [SerializeField] TextMeshProUGUI initialTargetGoalText;
+    [SerializeField] TextMeshProUGUI tipsText;
+    string[] tips = { "Throw food at customers chasing you to stun them", "Pick up pink collectibls to gain an extra 15 seconds", "Pick up burgers to gain an additional food item", "Shut doors to briefly stop enemy customers" };
 
     FireProjectiles fireProjectilesScript;
     GameManager gameManager;
@@ -18,6 +21,12 @@ public class UIManager : MonoBehaviour
     {
         fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
         gameManager = FindAnyObjectByType<GameManager>();
+
+        initialTargetGoalText.text = "Feed " + gameManager.customersToFeed + " customers in " + gameManager.timeRemaining + " seconds";
+
+        int tipsIndex = Random.Range(0, tips.Length);
+        tipsText.text = tips[tipsIndex];
+
     }
 
     // Update is called once per frame

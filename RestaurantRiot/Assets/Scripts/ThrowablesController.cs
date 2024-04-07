@@ -6,6 +6,8 @@ public class ThrowablesController : MonoBehaviour
 {
     [SerializeField] float speed;
 
+    GameManager gameManager;
+
     // Update is called once per frame
     void Update()
     {

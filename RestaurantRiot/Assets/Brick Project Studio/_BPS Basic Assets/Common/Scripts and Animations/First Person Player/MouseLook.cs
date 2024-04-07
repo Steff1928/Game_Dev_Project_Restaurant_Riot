@@ -16,7 +16,6 @@ namespace SojaExiles
         // Start is called before the first frame update
         void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen and hide it on startup
         }
 
         // Update is called once per frame
