@@ -1,6 +1,7 @@
 using SojaExiles;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,8 +9,15 @@ public class GameManager : MonoBehaviour
 {
     public float timeRemaining = 60f;
 
-    public int customersFed = 0;
+    [HideInInspector] public int customersFed = 0;
     public int customersToFeed = 50;
+
+    bool gameIsPaused = false;
+    [HideInInspector] public bool gameOver = false;
+    bool gameWon = false;
+
+    [HideInInspector] public string[] gameOverCauses = { "You were caught", "You ran out of time" };
+    [HideInInspector] public int gameOverCausesIndex;
 
     MouseLook mouseLookScript;
     FireProjectiles fireProjectilesScript;
@@ -19,10 +27,19 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Canvas objectiveInfo;
     [SerializeField] Canvas hud;
+    [SerializeField] Canvas pauseMenu;
+    [SerializeField] Canvas gameOverMenu;
+    [SerializeField] GameObject gameWonMenu;
 
     // Start is called before the first frame update
     void Start()
     {
+        objectiveInfo.enabled = true;
+        hud.enabled = false;
+        pauseMenu.enabled = false;
+        gameOverMenu.enabled = false;
+        gameWonMenu.SetActive(false);
+
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
 
@@ -39,28 +56,71 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeRemaining -= Time.deltaTime;
+        if (!gameOver && !gameWon)
+        {
+            timeRemaining -= Time.deltaTime;
+        }
 
         if (timeRemaining <= 0) 
         {
+            gameOver = true;
+            gameOverCausesIndex = 1;
             StopGame();
         }
 
         if (customersFed == customersToFeed) 
         {
+            gameWon = true;
             StopGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && objectiveInfo.enabled == false && !gameOver && !gameWon) 
+        {
+            if (!gameIsPaused) 
+            { 
+                PauseGame();
+            } 
+            else
+            {
+                ResumeGame();
+            }
         }
     }
     public void BeginGame()
     {
-        Debug.Log("BUTTON CLICKED");
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen and hide it once game has begun
         mouseLookScript.enabled = true;
         fireProjectilesScript.enabled = true;
         objectiveInfo.enabled = false;
         hud.enabled = true;
         Time.timeScale = 1;
+    }
 
+    void PauseGame()
+    {
+        gameIsPaused = true;
+
+        Cursor.lockState = CursorLockMode.None;
+        mouseLookScript.enabled = false; 
+        fireProjectilesScript.enabled = false;
+        pauseMenu.enabled = true;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        gameIsPaused = false;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        mouseLookScript.enabled = true;
+        fireProjectilesScript.enabled = true;
+        pauseMenu.enabled = false;
+        Time.timeScale = 1;
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void StopGame()
@@ -68,9 +128,35 @@ public class GameManager : MonoBehaviour
         // Disable both interactivity scripts so players can't move
         player.GetComponent<PlayerMovement>().enabled = false;
         playerCam.GetComponent<MouseLook>().enabled = false;
-        //playerCamera.transform.LookAt(transform.position); // Look at the enemy to show that the player has been caught
 
-        // TEMP: Restart
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (gameOver)
+        {
+            StartCoroutine(AwaitGameOver());
+        } 
+        else if (gameWon) 
+        {
+            gameWonMenu.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            StartCoroutine(AwaitGameWon());
+        }
+    }
+
+    IEnumerator AwaitGameOver()
+    {
+        yield return new WaitForSeconds(1);
+        gameOverMenu.enabled = true;
+        Cursor.lockState = CursorLockMode.None;
+        mouseLookScript.enabled = false;
+        fireProjectilesScript.enabled = false;
+        hud.enabled = false;
+    }
+
+    IEnumerator AwaitGameWon()
+    {
+        yield return new WaitForSeconds(1);
+        mouseLookScript.enabled = false;
+        fireProjectilesScript.enabled = false;
+        hud.enabled = false;
+        Time.timeScale = 0;
     }
 }

@@ -12,6 +12,8 @@ namespace SojaExiles
         public float speed = 5f;
         public float gravity = -15f;
 
+        public float timeIncrease = 15;
+
         Vector3 velocity;
 
         bool isGrounded = false;
@@ -72,7 +74,7 @@ namespace SojaExiles
             } 
             else if (other.gameObject.CompareTag("TimeCollectible"))
             {
-                gameManager.timeRemaining += 15;
+                gameManager.timeRemaining += timeIncrease;
                 Destroy(other.gameObject);
             }
         }

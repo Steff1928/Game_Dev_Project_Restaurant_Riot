@@ -75,8 +75,9 @@ public class EnemyAI : MonoBehaviour
             // TODO: Stop Game
             hasCaughtPlayer = true;
             animator.SetTrigger("hasCaughtPlayer");
+            gameManager.gameOver = true;
+            gameManager.gameOverCausesIndex = 0;
             gameManager.StopGame();
-
         }
 
         if (other.gameObject.CompareTag("Food") && !isStunned)

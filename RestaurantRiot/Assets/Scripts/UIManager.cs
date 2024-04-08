@@ -11,7 +11,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI targetGoalText;
     [SerializeField] TextMeshProUGUI initialTargetGoalText;
     [SerializeField] TextMeshProUGUI tipsText;
-    string[] tips = { "Throw food at customers chasing you to stun them", "Pick up pink collectibls to gain an extra 15 seconds", "Pick up burgers to gain an additional food item", "Shut doors to briefly stop enemy customers" };
+    [SerializeField] TextMeshProUGUI causeText;
+    [SerializeField] TextMeshProUGUI remainingTimeStat;
+
+    string[] tips = { "Throw food at customers chasing you to stun them", "Pick up pink tokens to gain an extra 15 seconds", "Pick up burgers to gain an additional food item", "Shut doors to briefly stop enemy customers" };
 
     FireProjectiles fireProjectilesScript;
     GameManager gameManager;
@@ -36,5 +39,7 @@ public class UIManager : MonoBehaviour
         burgerCountText.text = fireProjectilesScript.foodItems.ToString();
         timeRemaining.text = roundedTime.ToString() + " s";
         targetGoalText.text = gameManager.customersFed + " / " + gameManager.customersToFeed;
+        causeText.text = gameManager.gameOverCauses[gameManager.gameOverCausesIndex].ToString();
+        remainingTimeStat.text = "TIME REMAINING: " +  roundedTime.ToString() + " s";
     }
 }
