@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI causeText;
     [SerializeField] TextMeshProUGUI remainingTimeStat;
 
-    string[] tips = { "Throw food at customers chasing you to stun them", "Pick up pink tokens to gain an extra 15 seconds", "Pick up burgers to gain an additional food item", "Shut doors behind you to slow down enemy customers" };
+    string[] tips = { "Throw food at customers chasing you to stun them", "Pick up pink tokens to gain an extra 10 seconds", "Pick up burgers to gain an additional food item", "Shut doors behind you to slow down enemy customers" };
 
     FireProjectiles fireProjectilesScript;
     GameManager gameManager;

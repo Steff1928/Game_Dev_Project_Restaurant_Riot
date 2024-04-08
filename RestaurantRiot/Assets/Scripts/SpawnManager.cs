@@ -23,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     int enemiesSpawned = 0;
     int enemiesSpawnLimit = 3;
 
-    float spawnRateTime = 5;
+    float spawnRateTime = 4;
     float spawnRateFood = 1;
     float spawnRateCustomer = 2;
     float randomEnemySpawn;
