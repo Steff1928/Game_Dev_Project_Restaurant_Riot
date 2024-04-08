@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
         mouseLookScript.enabled = false;
         fireProjectilesScript.enabled = false;
         hud.enabled = false;
+        Time.timeScale = 0;
     }
 
     IEnumerator AwaitGameWon()
