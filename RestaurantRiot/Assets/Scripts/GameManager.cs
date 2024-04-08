@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     bool gameIsPaused = false;
     [HideInInspector] public bool gameOver = false;
-    bool gameWon = false;
+    [HideInInspector] public bool gameWon = false;
 
     [HideInInspector] public string[] gameOverCauses = { "You were caught", "You ran out of time" };
     [HideInInspector] public int gameOverCausesIndex;
@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
             timeRemaining -= Time.deltaTime;
         }
 
-        if (timeRemaining <= 0) 
+        if (timeRemaining <= 0 && !gameWon && !gameOver) 
         {
             gameOver = true;
             gameOverCausesIndex = 1;

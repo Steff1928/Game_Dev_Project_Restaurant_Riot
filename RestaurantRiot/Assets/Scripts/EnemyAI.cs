@@ -70,9 +70,8 @@ public class EnemyAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && !isStunned)
+        if (other.gameObject.CompareTag("Player") && !isStunned && !gameManager.gameWon && !gameManager.gameOver)
         {
-            // TODO: Stop Game
             hasCaughtPlayer = true;
             animator.SetTrigger("hasCaughtPlayer");
             gameManager.gameOver = true;

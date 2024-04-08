@@ -56,6 +56,7 @@ namespace SojaExiles
         {
             if (other.gameObject.CompareTag("Enemy") && !open)
 			{
+				Debug.Log("Enemy opening door");
 				StartCoroutine(opening());
 			}
         }

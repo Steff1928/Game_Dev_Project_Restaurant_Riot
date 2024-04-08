@@ -64037,6 +64037,7 @@ MonoBehaviour:
   customersFed: 0
   customersToFeed: 50
   gameOver: 0
+  gameWon: 0
   gameOverCauses:
   - You were caught
   - You ran out of time
