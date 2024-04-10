@@ -25,20 +25,20 @@ public class GameManager : MonoBehaviour
     GameObject player;
     Camera playerCam;
 
-    [SerializeField] Canvas objectiveInfo;
-    [SerializeField] Canvas hud;
-    [SerializeField] Canvas pauseMenu;
-    [SerializeField] Canvas gameOverMenu;
+    [SerializeField] GameObject objectiveInfo;
+    [SerializeField] GameObject hud;
+    [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject gameOverMenu;
     [SerializeField] GameObject gameWonMenu;
     [SerializeField] GameObject optionsMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        objectiveInfo.enabled = true;
-        hud.enabled = false;
-        pauseMenu.enabled = false;
-        gameOverMenu.enabled = false;
+        objectiveInfo.SetActive(true);
+        hud.SetActive(false);
+        pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
         gameWonMenu.SetActive(false);
         optionsMenu.SetActive(false);
 
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             StopGame();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && objectiveInfo.enabled == false && !gameOver && !gameWon) 
+        if (Input.GetKeyDown(KeyCode.Escape) && objectiveInfo.activeSelf == false && !gameOver && !gameWon) 
         {
             optionsMenu.SetActive(false);
             if (!gameIsPaused) 
@@ -105,8 +105,8 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; // Lock the cursor to the center of the screen and hide it once game has begun
         mouseLookScript.enabled = true;
         fireProjectilesScript.enabled = true;
-        objectiveInfo.enabled = false;
-        hud.enabled = true;
+        objectiveInfo.SetActive(false);
+        hud.SetActive(true);
         Time.timeScale = 1;
     }
 
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         mouseLookScript.enabled = false; 
         fireProjectilesScript.enabled = false;
-        pauseMenu.enabled = true;
+        pauseMenu.SetActive(true);
         Time.timeScale = 0;
     }
 
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         mouseLookScript.enabled = true;
         fireProjectilesScript.enabled = true;
-        pauseMenu.enabled = false;
+        pauseMenu.SetActive(false);
         Time.timeScale = 1;
     }
 
@@ -174,11 +174,11 @@ public class GameManager : MonoBehaviour
     IEnumerator AwaitGameOver()
     {
         yield return new WaitForSeconds(1);
-        gameOverMenu.enabled = true;
+        gameOverMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         mouseLookScript.enabled = false;
         fireProjectilesScript.enabled = false;
-        hud.enabled = false;
+        hud.SetActive(false);
         Time.timeScale = 0;
     }
 
@@ -187,7 +187,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         mouseLookScript.enabled = false;
         fireProjectilesScript.enabled = false;
-        hud.enabled = false;
+        hud.SetActive(false);
         Time.timeScale = 0;
     }
 }
