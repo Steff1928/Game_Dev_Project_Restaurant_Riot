@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +13,7 @@ public class SettingsManager : MonoBehaviour
     static int qualityIndex;
     static int resolutionIndex;
 
-    static bool isFullscreen;
+    static bool isFullscreen = true;
 
     [SerializeField] Slider sensitivitySlider;
     [SerializeField] TextMeshProUGUI sensitivityValue;
@@ -25,11 +27,11 @@ public class SettingsManager : MonoBehaviour
     {
         qualityIndex = QualitySettings.GetQualityLevel();
 
-        resolutions = Screen.resolutions;
+        resolutions = resolutions = Screen.resolutions.Where(resolution => resolution.refreshRateRatio.value == Screen.currentResolution.refreshRateRatio.value).ToArray();
         resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
-        
+        int currentResolution = 0;
         for (int i = 0; i < resolutions.Length; i++) 
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
@@ -38,12 +40,12 @@ public class SettingsManager : MonoBehaviour
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
             {
-                resolutionIndex = i;
+                currentResolution = i;
             }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = resolutionIndex;
+        resolutionDropdown.value = currentResolution;
         resolutionDropdown.RefreshShownValue();
     }
 
@@ -57,8 +59,7 @@ public class SettingsManager : MonoBehaviour
         graphicsDropdown.value = qualityIndex;
         graphicsDropdown.RefreshShownValue();
 
-        resolutionDropdown.value = resolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+        fullscreenToggle.isOn = isFullscreen;
     }
 
     public void MouseSensitivityChange(float sensitivityValue)
@@ -80,9 +81,8 @@ public class SettingsManager : MonoBehaviour
 
     public void SetResolution(int resolutionIndexValue)
     {
-        Resolution resolution = resolutions[resolutionIndexValue];
         resolutionIndex = resolutionIndexValue;
-
+        Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 }
