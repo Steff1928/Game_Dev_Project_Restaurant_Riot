@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Canvas pauseMenu;
     [SerializeField] Canvas gameOverMenu;
     [SerializeField] GameObject gameWonMenu;
+    [SerializeField] GameObject optionsMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.enabled = false;
         gameOverMenu.enabled = false;
         gameWonMenu.SetActive(false);
+        optionsMenu.SetActive(false);
 
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape) && objectiveInfo.enabled == false && !gameOver && !gameWon) 
         {
+            optionsMenu.SetActive(false);
             if (!gameIsPaused) 
             { 
                 PauseGame();
@@ -118,6 +121,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public void ShowOptionsMenu()
+    {
+        optionsMenu.SetActive(true);
+    }
+
+    public void HideOptionsMenu()
+    {
+        optionsMenu.SetActive(false);
+    }
+
     public void ResumeGame()
     {
         gameIsPaused = false;
@@ -150,6 +163,12 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             StartCoroutine(AwaitGameWon());
         }
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Game Closed");
+        Application.Quit();
     }
 
     IEnumerator AwaitGameOver()
