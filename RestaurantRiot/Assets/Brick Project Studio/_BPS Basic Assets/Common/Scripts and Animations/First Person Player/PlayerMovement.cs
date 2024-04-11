@@ -20,6 +20,7 @@ namespace SojaExiles
 
         FireProjectiles fireProjectilesScript;
         GameManager gameManager;
+        UIManager uiManager;
 
         // Start is called before the first frame update
         private void Start()
@@ -27,6 +28,7 @@ namespace SojaExiles
             // Find the FireProjectiles and GameManager anywhere in the hierachy and store them here
             fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
             gameManager = FindAnyObjectByType<GameManager>();
+            uiManager = FindAnyObjectByType<UIManager>();
         }
 
         // Update is called once per frame
@@ -75,6 +77,7 @@ namespace SojaExiles
             else if (other.gameObject.CompareTag("TimeCollectible"))
             {
                 gameManager.timeRemaining += timeIncrease;
+                uiManager.DisplayTimeCollected();
                 Destroy(other.gameObject);
             }
         }
