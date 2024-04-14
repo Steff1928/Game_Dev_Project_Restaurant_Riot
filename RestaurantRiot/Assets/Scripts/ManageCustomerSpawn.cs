@@ -10,8 +10,17 @@ public class ManageCustomerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Loop through each skinned mesh render on the children game objects of each customer to disable
+        // it on start up (avoiding bugs where players can see customers appearing and disspearing)
+        foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>()) 
+        {
+            skinnedMesh.enabled = false;
+        }
+
         animator = GetComponent<Animator>(); // Reference the animator component on the customer
         gameManager = FindAnyObjectByType<GameManager>();
+
+        StartCoroutine(ShowCustomer());
     }
 
     // Check to see if the customer is within the boundaries of the level and isn't touching any other objects
@@ -44,5 +53,14 @@ public class ManageCustomerSpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(1.3f);
         Destroy(gameObject);
+    }
+    // Show the customer after some time if the game object has not been destroyed
+    IEnumerator ShowCustomer()
+    {
+        yield return new WaitForSeconds(1);
+        foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            skinnedMesh.enabled = true;
+        }
     }
 }

@@ -15,14 +15,32 @@ public class CollectiblesController : MonoBehaviour
     [SerializeField] LayerMask exceptionMask;
 
     BoxCollider boxCollider;
+    MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get the objects current position and put it in a variable so we can access it later with less code
         pos = transform.position;
+        meshRenderer = GetComponent<MeshRenderer>();
 
         boxCollider = GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
+
+        if (gameObject.CompareTag("FoodCollectible"))
+        {
+            meshRenderer.enabled = false;
+        } 
+        
+        if (gameObject.CompareTag("TimeCollectible"))
+        {
+            foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
+            {
+                mesh.enabled = false;
+            }
+        }
+
+        StartCoroutine(ShowCollectibles());
     }
 
     // Update is called once per frame
@@ -64,5 +82,25 @@ public class CollectiblesController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
 
         Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z));
+    }
+
+    IEnumerator ShowCollectibles()
+    {
+        yield return new WaitForSeconds(1);
+
+        boxCollider.enabled = true;
+
+        if (gameObject.CompareTag("FoodCollectible"))
+        {
+            meshRenderer.enabled = true;
+        }
+        
+        if (gameObject.CompareTag("TimeCollectible"))
+        {
+            foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
+            {
+                mesh.enabled = true;
+            }
+        }
     }
 }
