@@ -22,6 +22,8 @@ public class SettingsManager : MonoBehaviour
     private void Start()
     {
         qualityIndex = QualitySettings.GetQualityLevel();
+
+
     }
 
     private void Update()
