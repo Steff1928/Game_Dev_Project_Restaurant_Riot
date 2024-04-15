@@ -120,10 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 75
-  speed: 2
+  ySpeed: 2
   height: 0.1
   heightOffset: 0.5
-  sphereRadius: 1
   exceptionMask:
     serializedVersion: 2
     m_Bits: 512

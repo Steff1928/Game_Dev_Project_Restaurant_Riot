@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Contains general UI Logic
 public class UIManager : MonoBehaviour
 {
     // Variables for each UI element requiring a reference
@@ -30,14 +31,17 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timePickUpNotification.enabled = false;
+        timePickUpNotification.enabled = false; // Disable timePickUpNotification by default
 
+        // Find the associated scripts
         fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
         gameManager = FindAnyObjectByType<GameManager>();
         playerMovementScript = FindAnyObjectByType<PlayerMovement>();
 
+        // Assign the initialTargetGoal text to the customerToFeed and timeRemaining variables from the Game Manager
         initialTargetGoalText.text = "Feed " + gameManager.customersToFeed + " customers in " + gameManager.timeRemaining + " seconds";
 
+        // Randomise a tip to display on startup
         int tipsIndex = Random.Range(0, tips.Length);
         tipsText.text = tips[tipsIndex];
 
@@ -46,16 +50,23 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float roundedTime =  Mathf.Round(gameManager.timeRemaining);
+        // Assign the number of food items left to a text object
         foodItemCountText.text = fireProjectilesScript.foodItems.ToString();
+
+        // Round timeRemaining and display it in text
+        float roundedTime = Mathf.Round(gameManager.timeRemaining);
         timeRemaining.text = roundedTime.ToString() + " s";
+
+        // Assign the number of customers fed and customers to feed to a text object
         targetGoalText.text = gameManager.customersFed + " / " + gameManager.customersToFeed;
+
+        // Assign the associated cause of game over state using gameOverCausesIndex to a text object
         causeText.text = gameManager.gameOverCauses[gameManager.gameOverCausesIndex].ToString();
 
+        // Assign the remaining time to a text object which is displayed later
         remainingTimeStat.text = "TIME REMAINING: " +  roundedTime.ToString() + " s";
 
         // Change text colour based on time remaining and food items left
-
         if (gameManager.timeRemaining <= 30)
         {
             timeRemaining.color = Color.yellow;

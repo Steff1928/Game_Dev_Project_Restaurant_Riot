@@ -8,11 +8,12 @@ using UnityEngine;
 
 namespace SojaExiles
 {
+    // Contains logic for Player Mouse Movement
     public class MouseLook : MonoBehaviour
     {
-        public Transform playerBody;
+        [SerializeField] Transform playerBody; // Reference the Transform of the Player Body, to be assigned in inspector
 
-        float xRotation = 0f;
+        float xRotation = 0f; // Variable for xRotation
 
         // Update is called once per frame
         void Update()
@@ -21,11 +22,11 @@ namespace SojaExiles
             float mouseX = Input.GetAxis("Mouse X") * SettingsManager.mouseSensitivity;
             float mouseY = Input.GetAxis("Mouse Y") * SettingsManager.mouseSensitivity;
 
-            xRotation -= mouseY; // Allow the player to look up and down
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Prevent the player from tilting the camera above or below a certain limit
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // Prevent the player from tilting the camera above or below 90 degrees
 
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            playerBody.Rotate(Vector3.up * mouseX);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Allow the player to tilt left and right on the X Axis
+            playerBody.Rotate(Vector3.up * mouseX); // Allow the player to look up and down
         }
     }
 }

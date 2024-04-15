@@ -2,25 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Contains logic for how customers act upon instatiation
 public class ManageCustomerSpawn : MonoBehaviour
 {
+    GameManager gameManager; // Reference the GameManager scripts
+
+    // Reference the Animator and BoxCollider components
     Animator animator;
-    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         // Loop through each skinned mesh render on the children game objects of each customer to disable
-        // it on start up (avoiding bugs where players can see customers appearing and disspearing)
+        // it on start up (avoiding bugs where players can see customers appearing and disappearing)
         foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>()) 
         {
             skinnedMesh.enabled = false;
         }
 
         animator = GetComponent<Animator>(); // Reference the animator component on the customer
-        gameManager = FindAnyObjectByType<GameManager>();
-
-        StartCoroutine(ShowCustomer());
+        gameManager = FindAnyObjectByType<GameManager>(); // Find the Game Manager script
     }
 
     // Check to see if the customer is within the boundaries of the level and isn't touching any other objects
@@ -30,9 +31,14 @@ public class ManageCustomerSpawn : MonoBehaviour
         {
             if (!(collision.gameObject.CompareTag("Food")))
             {
-                Debug.Log("Customer isn't within confines!");
                 Destroy(gameObject);
             } 
+        } else // If the customer is in contact with the ground, enable each of the child components meshes
+        {
+            foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                skinnedMesh.enabled = true;
+            }
         }
     }
 
@@ -53,14 +59,5 @@ public class ManageCustomerSpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(1.3f);
         Destroy(gameObject);
-    }
-    // Show the customer after some time if the game object has not been destroyed
-    IEnumerator ShowCustomer()
-    {
-        yield return new WaitForSeconds(1);
-        foreach (SkinnedMeshRenderer skinnedMesh in GetComponentsInChildren<SkinnedMeshRenderer>())
-        {
-            skinnedMesh.enabled = true;
-        }
     }
 }

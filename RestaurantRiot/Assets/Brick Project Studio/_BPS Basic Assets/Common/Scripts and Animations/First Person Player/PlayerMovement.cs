@@ -8,19 +8,22 @@ using UnityEngine;
 
 namespace SojaExiles
 {
+    // Contains logic for basic player movement and some assocatiated gameplay mechanics
     public class PlayerMovement : MonoBehaviour
     {
-        public CharacterController controller;
+        [SerializeField] CharacterController controller; // Reference the CharacterController component
 
-        public float speed = 5f;
-        public float gravity = -15f;
+        // Variables that control player movement behaviour
+        [SerializeField] float speed = 5f;
+        [SerializeField] float gravity = -15f;
 
-        public float timeIncrease = 15;
+        public float timeIncrease = 15; // Determines the increase value from a time collectible
 
-        Vector3 velocity;
+        Vector3 velocity; // Variable to hold a Vector3 position for velocity
 
-        bool isGrounded = false;
+        bool isGrounded = false; // Determines whether the player is grounded
 
+        // Script references
         FireProjectiles fireProjectilesScript;
         GameManager gameManager;
         UIManager uiManager;
@@ -28,7 +31,7 @@ namespace SojaExiles
         // Start is called before the first frame update
         private void Start()
         {
-            // Find the FireProjectiles and GameManager anywhere in the hierachy and store them here
+            // Find the FireProjectiles, GameManager and UIManager anywhere in the hierachy and store them here
             fireProjectilesScript = FindAnyObjectByType<FireProjectiles>();
             gameManager = FindAnyObjectByType<GameManager>();
             uiManager = FindAnyObjectByType<UIManager>();
@@ -41,6 +44,7 @@ namespace SojaExiles
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
+            // Store movement from x and z as a local Vector3 variable
             Vector3 move = transform.right.normalized * x + transform.forward.normalized * z;
 
             controller.Move(move * speed * Time.deltaTime); // Move the player when WASD or Arrow Keys are pressed
@@ -72,12 +76,15 @@ namespace SojaExiles
         }
         private void OnTriggerEnter(Collider other)
         {
+            // If the player collides with a food collectible, increase the number
+            // of food items on FireProjectiles script
             if (other.gameObject.CompareTag("FoodCollectible"))
             {
-                fireProjectilesScript.foodItems++; // Increase number of food items on FireProjectiles script
+                fireProjectilesScript.foodItems++;
                 Destroy(other.gameObject);
-            } 
-            else if (other.gameObject.CompareTag("TimeCollectible"))
+            }
+            // If the player collides with a time collectible, increase timeRemaining by timeIncrease
+            else if (other.gameObject.CompareTag("TimeCollectible")) 
             {
                 gameManager.timeRemaining += timeIncrease;
                 uiManager.DisplayTimeCollected();

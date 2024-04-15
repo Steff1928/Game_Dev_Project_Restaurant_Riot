@@ -5,15 +5,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Contains logic specifically for the Settings Menu
 public class SettingsManager : MonoBehaviour
 {
-    // This value is static and public because it needs to be accessed from another script in a different scene
+    // Static variables which are accessed across both scenes
     public static float mouseSensitivity = 1f;
-
     static int qualityIndex;
+    static bool isFullScreen = true;
 
-    static bool isFullscreen = true;
-
+    // Reference UI objects that will be assigned within the inspector
     [SerializeField] Slider sensitivitySlider;
     [SerializeField] TextMeshProUGUI sensitivityValue;
     [SerializeField] TMP_Dropdown graphicsDropdown;
@@ -21,38 +21,43 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
-        qualityIndex = QualitySettings.GetQualityLevel();
-
-
+        qualityIndex = QualitySettings.GetQualityLevel(); // Set qualityIndex to the current Quality Level Unity is using
     }
 
     private void Update()
     {
-        sensitivitySlider.value = mouseSensitivity;
+        sensitivitySlider.value = mouseSensitivity; // Assign the value of mouseSensitivity to the slider
 
+        // Round mouseSensitivity and multiply it by 100 to give an exagerrated effect in-game
         float roundedSensitivity = Mathf.Round(mouseSensitivity * 100);
-        sensitivityValue.text = roundedSensitivity.ToString();
+        sensitivityValue.text = roundedSensitivity.ToString(); // Assign the rounded sensitivity value to the associated text box
 
-        graphicsDropdown.value = qualityIndex;
+        graphicsDropdown.value = qualityIndex; // Assign the associated dropdown box to the value of qualityIndex
         graphicsDropdown.RefreshShownValue();
 
-        fullscreenToggle.isOn = isFullscreen;
+        fullscreenToggle.isOn = isFullScreen; // Assign the value of isFullScreen to an associated toggle
     }
 
+    // Update the value of the Mouse Sensitivity slider accordingly
+    // This function is called each time the value of the slider is changed
     public void MouseSensitivityChange(float sensitivityValue)
     {
-        mouseSensitivity = sensitivityValue;
+        mouseSensitivity = sensitivityValue; 
     }
 
+    // Update the value of qualityIndex each time this function is called
+    // This function is called each time the value of the dropdown is changed
     public void SetQuality(int qualityIndexValue)
     {
         qualityIndex = qualityIndexValue;
         QualitySettings.SetQualityLevel(qualityIndex);
     }
 
-    public void SetFullScreen(bool isFullscreenValue)
+    // Update the value of isFullScreen each time this function is called
+    // This function is called each time the value of the toggle is changed
+    public void SetFullScreen(bool isFullScreenValue)
     {
-        isFullscreen = isFullscreenValue;
-        Screen.fullScreen = isFullscreen;
+        isFullScreen = isFullScreenValue;
+        Screen.fullScreen = isFullScreen;
     }
 }

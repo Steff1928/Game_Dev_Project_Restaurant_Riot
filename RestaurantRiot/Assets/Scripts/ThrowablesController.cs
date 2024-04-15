@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Behavioural logic for how the throwable food item acts upon instatiation
 public class ThrowablesController : MonoBehaviour
 {
     [SerializeField] float speed;

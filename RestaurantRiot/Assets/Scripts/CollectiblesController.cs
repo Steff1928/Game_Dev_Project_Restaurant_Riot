@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
+// Contains logic for how collectible objects act in game 
 public class CollectiblesController : MonoBehaviour
 {
+    // Variables that modify the behaviour of the collectible (editable in inspector)
     [SerializeField] float rotateSpeed = 50.0f;
-    [SerializeField] float speed = 50.0f;
+    [SerializeField] float ySpeed = 50.0f;
     [SerializeField] float height = 0.2f;
     
+    // Determines how far off the ground the collectible should be
     public float heightOffset = 0.5f;
 
-    Vector3 pos;
+    Vector3 pos; // Stores a Vector3 of the collectibles original position
 
-    [SerializeField] LayerMask exceptionMask;
+    [SerializeField] LayerMask exceptionMask; // Used within "CheckBox" to ignore anything with this mask
 
+    // Component references
     BoxCollider boxCollider;
     MeshRenderer meshRenderer;
 
@@ -22,11 +27,15 @@ public class CollectiblesController : MonoBehaviour
     {
         // Get the objects current position and put it in a variable so we can access it later with less code
         pos = transform.position;
-        meshRenderer = GetComponent<MeshRenderer>();
 
+        meshRenderer = GetComponent<MeshRenderer>(); // Get the MeshRenderer component
+
+        // Get the BoxCollider component and disable it on instantiation of collectible object
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
 
+        // Disable the MeshRenderer component on startup for a food item collectible and for each child 
+        // component of a time collectible
         if (gameObject.CompareTag("FoodCollectible"))
         {
             meshRenderer.enabled = false;
@@ -40,16 +49,16 @@ public class CollectiblesController : MonoBehaviour
             }
         }
 
-        StartCoroutine(ShowCollectibles());
+        StartCoroutine(ShowCollectibles()); // Once a everything has been initalised, start a coroutine to properly show the collectibles
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime); // Rotate the collectible object at a certain speed
 
         // Calculate what the new Y position will be
-        float newY = Mathf.Sin(Time.time * speed);
+        float newY = Mathf.Sin(Time.time * ySpeed);
         // Set the object's Y to the new calculated Y
         transform.position = new Vector3(pos.x, (newY * height) + heightOffset, pos.z);
 
@@ -63,20 +72,23 @@ public class CollectiblesController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // TODO: Clean up this code
-        if (!other.gameObject.CompareTag("Food")
-            && !other.gameObject.CompareTag("Ground")
-            && !other.gameObject.CompareTag("Player")
-            && !other.gameObject.CompareTag("FoodCollectible")
-            && !other.gameObject.CompareTag("TimeCollectible")
-            && !other.gameObject.CompareTag("Enemy")
-            && !other.gameObject.CompareTag("Customers"))
+        // Ensure that the collectible is not colliding with any of the following objects with tags and destroy it
+        
+        bool food = other.gameObject.CompareTag("Food");
+        bool ground = other.gameObject.CompareTag("Ground");
+        bool player = other.gameObject.CompareTag("Player");
+        bool foodCollectible = other.gameObject.CompareTag("FoodCollectible");
+        bool timeCollectible = other.gameObject.CompareTag("TimeCollectible");
+        bool enemy = other.gameObject.CompareTag("Enemy");
+        bool customers = other.gameObject.CompareTag("Customers");
+
+        if (!food && !ground && !player && !foodCollectible && !timeCollectible && !enemy && !customers)
         {
-            Debug.Log("Collectible is colliding with a structural object!");
             Destroy(gameObject);
         }
     }
 
+    // Clearly draw a cube around each collectible to show what it will be colliding with (in relation to "CheckCube")
     private void OnDrawGizmos()
     {
         boxCollider = GetComponent<BoxCollider>();
@@ -84,6 +96,8 @@ public class CollectiblesController : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z));
     }
 
+    // When a collectible has not yet been destroyed after a few seconds, enable both the BoxCollider and MeshRenderer components
+    // for the collectible object
     IEnumerator ShowCollectibles()
     {
         yield return new WaitForSeconds(2);

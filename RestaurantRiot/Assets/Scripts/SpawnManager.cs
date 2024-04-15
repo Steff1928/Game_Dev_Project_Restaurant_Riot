@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Logic for the instatiation of multiple objects
 public class SpawnManager : MonoBehaviour
 {
     // Create arrays of GameObjects to reference prefabs to spawn
@@ -20,16 +21,19 @@ public class SpawnManager : MonoBehaviour
 
     float collectibleZBoundFoward = 38.0f; // Collectibles can also be instatiated within the back offices of the map
 
+    // Assign variables to keep track of enemies spawned
     int enemiesSpawned = 0;
     int enemiesSpawnLimit = 3;
 
+    // Spawn Rate variables for collectibles and customers
     float spawnRateTime = 4.5f;
-    float spawnRateFood = 1;
-    float spawnRateCustomer = 2;
-    float randomEnemySpawn;
+    float spawnRateFood = 1f;
+    float spawnRateCustomer = 1.5f;
+    float randomEnemySpawn; // Variable to determine a random enemy spawn
 
-    float waitTime = 5;
-    float enemyWaitTime = 30;
+    // Wait time for customers and enemies
+    float waitTime = 5f;
+    float enemyWaitTime = 30f;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +42,8 @@ public class SpawnManager : MonoBehaviour
 
         InvokeRepeating(nameof(SpawnInCustomers), waitTime, spawnRateCustomer); // Spawn a customer every few seconds
         InvokeRepeating(nameof(SpawnInEnemyCustomers), enemyWaitTime, randomEnemySpawn); // Spawn an enemy customer every few seconds
+        
+        // Spawn collectibles every few seconds
         InvokeRepeating(nameof(SpawnInFoodCollectibles), waitTime, spawnRateFood);
         InvokeRepeating(nameof(SpawnInTimeCollectibles), waitTime, spawnRateTime);
     }

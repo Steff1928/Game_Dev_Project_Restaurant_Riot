@@ -3,29 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Contains UI logic, specifically regarding the Main Menu
 public class MainMenuUI : MonoBehaviour
 {
+    // Reference UI objects that will be assigned within the inspector
     [SerializeField] GameObject mainMenuPanel;
     [SerializeField] GameObject controlsPanel;
     [SerializeField] GameObject creditsPanel;
     [SerializeField] GameObject optionsPanel;
 
-    MouseLook mouseLook;
-
     // Start is called before the first frame update
     void Start()
     {
-        mouseLook = FindAnyObjectByType<MouseLook>();
-
-        BackToMenu();
+        BackToMenu(); // Run "BackToMenu" on startup
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // Disable any panels apart from mainMenuPanel
     public void BackToMenu()
     {
         mainMenuPanel.SetActive(true);
@@ -34,18 +27,21 @@ public class MainMenuUI : MonoBehaviour
         optionsPanel.SetActive(false);
     }
 
+    // Enable controlsPanel and disable mainMenuPanel when called
     public void SwitchToControls()
     {
         controlsPanel.SetActive(true);
         mainMenuPanel.SetActive(false); 
     }
 
+    // Enable creditsPanel and disable mainMenuPanel when called
     public void SwitchToCredits()
     {
         creditsPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
     }
 
+    // Enable optionsPanel and disable mainMenuPanel when called
     public void SwitchToOptions()
     {
         optionsPanel.SetActive(true);

@@ -629,7 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 75
-  speed: 2
+  ySpeed: 2
   height: 0.1
   heightOffset: 1
   exceptionMask:
