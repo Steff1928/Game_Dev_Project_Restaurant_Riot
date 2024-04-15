@@ -48,8 +48,6 @@ public class CollectiblesController : MonoBehaviour
                 mesh.enabled = false;
             }
         }
-
-        StartCoroutine(ShowCollectibles()); // Once a everything has been initalised, start a coroutine to properly show the collectibles
     }
 
     // Update is called once per frame
@@ -67,6 +65,10 @@ public class CollectiblesController : MonoBehaviour
         if (!Physics.CheckBox(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z), Quaternion.identity, exceptionMask))
         {
             Destroy(gameObject);
+        } 
+        else
+        {
+            ShowCollectibles(); // Show the collectibles if they have not been destroyed
         }
     }
 
@@ -85,6 +87,10 @@ public class CollectiblesController : MonoBehaviour
         if (!food && !ground && !player && !foodCollectible && !timeCollectible && !enemy && !customers)
         {
             Destroy(gameObject);
+        } 
+        else
+        {
+            ShowCollectibles();
         }
     }
 
@@ -96,19 +102,16 @@ public class CollectiblesController : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z));
     }
 
-    // When a collectible has not yet been destroyed after a few seconds, enable both the BoxCollider and MeshRenderer components
-    // for the collectible object
-    IEnumerator ShowCollectibles()
+    // Enable both the BoxCollider and MeshRenderer components for the collectible object when called
+    void ShowCollectibles()
     {
-        yield return new WaitForSeconds(2);
-
         boxCollider.enabled = true;
 
         if (gameObject.CompareTag("FoodCollectible"))
         {
             meshRenderer.enabled = true;
         }
-        
+
         if (gameObject.CompareTag("TimeCollectible"))
         {
             foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
