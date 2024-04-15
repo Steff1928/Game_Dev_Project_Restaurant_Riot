@@ -86,7 +86,7 @@ public class CollectiblesController : MonoBehaviour
 
     IEnumerator ShowCollectibles()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
 
         boxCollider.enabled = true;
 

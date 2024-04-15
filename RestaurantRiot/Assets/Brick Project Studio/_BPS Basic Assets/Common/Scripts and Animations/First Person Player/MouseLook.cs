@@ -2,21 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SojaExiles
+/// Script provided by the Fast Food Restaurant Kit asset pack by Brick Project Studios.
+/// Since this a very basic way to achieve mouse look movement, this script has not been greatly modified 
+/// (although, I still do not claim ownership of the contents of this script)
 
+namespace SojaExiles
 {
     public class MouseLook : MonoBehaviour
     {
         public Transform playerBody;
 
         float xRotation = 0f;
-
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
 
         // Update is called once per frame
         void Update()
