@@ -22,7 +22,6 @@ public class ThrowablesController : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Object hit!");
             Destroy(gameObject);
         }
     }
@@ -31,7 +30,6 @@ public class ThrowablesController : MonoBehaviour
     IEnumerator DeleteProjectile()
     {
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Object destroyed for lasting too long");
         Destroy(gameObject);
     }
 }

@@ -73,7 +73,6 @@ public class OpenCloseDoor : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy") && !isOpen)
         {
-            Debug.Log("Enemy opening door");
             StartCoroutine(Opening());
         }
     }
@@ -81,7 +80,6 @@ public class OpenCloseDoor : MonoBehaviour
     // After some time, play an animation and register the door as open
     IEnumerator Opening()
     {
-        print("you are opening the door");
         openAndCloseAnim.Play("Opening");
         isOpen = true;
         obstacle.enabled = false; // Prevent enemies from getting stuck on doors when they are opened
@@ -91,7 +89,6 @@ public class OpenCloseDoor : MonoBehaviour
     // After some time, play an animation and register the door as closed
     IEnumerator Closing()
     {
-        print("you are closing the door");
         openAndCloseAnim.Play("Closing");
         isOpen = false;
         obstacle.enabled = true; // Prevent enemies from getting through doors when they are closed
