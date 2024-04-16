@@ -27,7 +27,7 @@ public class SpawnManager : MonoBehaviour
 
     // Spawn Rate variables for collectibles and customers
     float spawnRateTime = 4.5f;
-    float spawnRateFood = 1f;
+    float spawnRateFood = 0.7f;
     float spawnRateCustomer = 1.5f;
     float randomEnemySpawn; // Variable to determine a random enemy spawn
 
