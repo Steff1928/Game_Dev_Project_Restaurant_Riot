@@ -1,9 +1,7 @@
 using SojaExiles;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 // Contains general UI Logic
 public class UIManager : MonoBehaviour

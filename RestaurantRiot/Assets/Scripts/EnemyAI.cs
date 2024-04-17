@@ -1,10 +1,7 @@
 using SojaExiles;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 // Contains logic for enemy behaviour
 public class EnemyAI : MonoBehaviour

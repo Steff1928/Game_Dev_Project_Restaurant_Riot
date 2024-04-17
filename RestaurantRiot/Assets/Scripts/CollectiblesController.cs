@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build;
 using UnityEngine;
 
 // Contains logic for how collectible objects act in game 
@@ -10,9 +8,11 @@ public class CollectiblesController : MonoBehaviour
     [SerializeField] float rotateSpeed = 50.0f;
     [SerializeField] float ySpeed = 50.0f;
     [SerializeField] float height = 0.2f;
+
+    [SerializeField] float ySize;
     
     // Determines how far off the ground the collectible should be
-    public float heightOffset = 0.5f;
+    [SerializeField] float heightOffset = 0.5f;
 
     Vector3 pos; // Stores a Vector3 of the collectibles original position
 
@@ -62,13 +62,15 @@ public class CollectiblesController : MonoBehaviour
 
         // Checks to see if any objects with the layer "exceptionMask" are within the box's collider
         // (with exagerrated y to detect ground), if not, destroy the object
-        if (!Physics.CheckBox(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z), Quaternion.identity, exceptionMask))
+        if (!Physics.CheckBox(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * ySize, boxCollider.size.z), Quaternion.identity, exceptionMask))
         {
             Destroy(gameObject);
         } 
         else
         {
-            ShowCollectibles(); // Show the collectibles if they have not been destroyed
+            // Show the collectibles if they have not been destroyed (using a coroutine to ensure the object does not get
+            // destroyed after a few seconds)
+            StartCoroutine(ShowCollectibles());
         }
     }
 
@@ -90,7 +92,7 @@ public class CollectiblesController : MonoBehaviour
         } 
         else
         {
-            ShowCollectibles();
+            StartCoroutine(ShowCollectibles());
         }
     }
 
@@ -99,12 +101,14 @@ public class CollectiblesController : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider>();
 
-        Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * 4, boxCollider.size.z));
+        Gizmos.DrawWireCube(transform.position, new Vector3(boxCollider.size.x, boxCollider.size.y * ySize, boxCollider.size.z));
     }
 
-    // Enable both the BoxCollider and MeshRenderer components for the collectible object when called
-    void ShowCollectibles()
+    // After some time, enable both the BoxCollider and MeshRenderer components for the collectible object when called
+    IEnumerator ShowCollectibles()
     {
+        yield return new WaitForSeconds(3);
+
         boxCollider.enabled = true;
 
         if (gameObject.CompareTag("FoodCollectible"))

@@ -122,6 +122,7 @@ MonoBehaviour:
   rotateSpeed: 75
   ySpeed: 2
   height: 0.1
+  ySize: 8
   heightOffset: 0.5
   exceptionMask:
     serializedVersion: 2

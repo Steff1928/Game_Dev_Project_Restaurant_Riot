@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// Script provided by the Fast Food Restaurant Kit asset pack by Brick Project Studios.
 /// This script has been modified during project development to account for plagarism

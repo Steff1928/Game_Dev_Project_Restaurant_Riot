@@ -1,6 +1,3 @@
-using SojaExiles;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // Contains UI logic, specifically regarding the Main Menu

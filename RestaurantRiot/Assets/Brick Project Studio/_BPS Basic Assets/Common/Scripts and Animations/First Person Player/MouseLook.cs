@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// Script provided by the Fast Food Restaurant Kit asset pack by Brick Project Studios.
 /// Since this a very basic way to achieve mouse look movement, this script has not been greatly modified 
